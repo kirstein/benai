@@ -1,9 +1,9 @@
 #!/usr/bin/env coffee
 LIB_DIR  = "#{__dirname}/../lib"
 
+path  = require 'path'
 pck   = require '../package.json'
-mod   = require "#{LIB_DIR}/modules"
-_     = require 'lodash'
+mod   = require path.resolve "#{LIB_DIR}/modules"
 cli   = require 'cli'
 
 # Setup cli
@@ -11,8 +11,8 @@ cli.enable 'glob', 'help', 'version'
 cli.setApp pck.name, pck.version
 
 # Load the core and normal modules
-core    = mod.load "#{__dirname}/../core"
-modules = mod.load "#{__dirname}/../modules"
+core    = mod.load path.resolve "#{__dirname}/../core"
+modules = mod.load path.resolve "#{__dirname}/../modules"
 
 # Parse the arguments
 # Add the arguments from the modules to the args listing, making them available for later usage
