@@ -1,0 +1,33 @@
+{
+  "name": "benai",
+  "version": "0.0.0",
+  "description": "Benchmark testing toolset",
+  "homepage": "http://github.com/kirstein/zimple",
+  "main": "zimple.js",
+  "bin": "./bin/benai.coffee",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kirstein/benai.git"
+  },
+  "scripts": {
+    "blanket": {
+      "loader": "./node-loaders/coffee-script",
+      "data-cover-only": [
+        "src",
+        "plugins"
+      ],
+      "data-cover-never": "node_modules"
+    }
+  },
+  "author": "Mikk Kirstein",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "dependencies": {
+    "terminal-menu": "~0.2.0",
+    "coffee-script": "~1.7.1",
+    "cli": "~0.4.5",
+    "lodash": "~2.4.1"
+  }
+}

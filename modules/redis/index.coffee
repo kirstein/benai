@@ -1,0 +1,2 @@
+exports.args =
+  'test' : 'asd'
