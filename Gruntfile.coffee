@@ -39,14 +39,6 @@ module.exports = (grunt) ->
 
       browserify : cmd : "browserify #{PERF_PATH}/lib/node.perf > #{PERF_PATH}/lib/browser.perf.js"
 
-    # Wrap the zimple.js in customized wrapper
-    wrap :
-      production:
-        src     : "#{LIB_PATH}/src/zimple.js"
-        dest    : 'zimple.js'
-        options :
-          wrapper : ['(function(global, undefined) {', '})(this);']
-
     # Compile coffee-script files to js
     coffee:
       # Performance files only
@@ -59,25 +51,6 @@ module.exports = (grunt) ->
             "#{PLUGIN_PATH}/**/*.perf.coffee",
             "#{PERF_PATH}/runner-footer.coffee" # This must be the last file
           ]
-
-      # All files for building purposes
-      build :
-        options : bare : true
-        files : 'lib/src/zimple.js' :
-          [
-            "#{SRC_PATH}/**/zimple.coffee",     # Core as first
-            "#{PLUGIN_PATH}/**/*.coffee",       # Attach all the plugin files
-            "!#{PLUGIN_PATH}/**/*.test.coffee", # Skip all the tests for building
-            "!#{PLUGIN_PATH}/**/*.perf.coffee", # Skip all the tests for building
-          ]
-
-    # Uglify the end result
-    uglify :
-      build:
-        options:
-          report :'gzip'
-        files  :
-          'zimple.min.js' : [ 'zimple.js' ]
 
     # Coverage tests
     mochacov :
