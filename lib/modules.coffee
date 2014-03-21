@@ -1,11 +1,24 @@
-fs = require 'fs'
+fs   = require 'fs'
 path = require 'path'
-_ = require 'lodash'
+_    = require 'lodash'
 
+# Gets the directory, fetches its content and requires all files from that directory.
+# Returned modules will be required and mapped.
 exports.load = (dir) ->
   _.map fs.readdirSync(dir), (mod) -> require path.join dir, mod
 
-exports.getArgs = (modules = []) ->
-  _(modules).filter 'args'
-            .reduce ( (old, mod) -> _.extend old, mod.args ), {}
+# Fetches all the arguments from given modules
+#
+# There can be unlimited number of given arguments, the arguments array will be flattened.
+# There will be no warning if the arguments overlap.
+exports.getArgs = ->
+  _(arguments).flatten()
+              .filter 'args'
+              .reduce ( (old, mod) -> _.extend old, mod.args ), {}
 
+# Triggers init method on all given modules
+# passes the arguments to the module
+exports.init = (modules = [], args...)->
+  _(modules).flatten()
+            .filter 'init'
+            .invoke 'init', args...
