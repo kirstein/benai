@@ -4,7 +4,7 @@
   "description": "Benchmark testing toolset",
   "homepage": "http://github.com/kirstein/zimple",
   "main": "zimple.js",
-  "bin": "./bin/benai.coffee",
+  "bin": "./bin/benai_bin.coffee",
   "repository": {
     "type": "git",
     "url": "https://github.com/kirstein/benai.git"
