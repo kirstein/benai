@@ -1,4 +1,4 @@
-spawn  = require('child_process').spawn
+cp     = require 'child_process'
 stream = require 'stream'
 
 buildCmdArray = (cmd) ->
@@ -7,19 +7,20 @@ buildCmdArray = (cmd) ->
   [ args[0], args[1..] ]
 
 spawnPipes = (cmds) ->
-  stream  = stream.PassThrough()
+  res     = stream.PassThrough()
   oldProc = null
 
   # Pipe streams together, starting from the last
   for rawCmd in cmds
-    newProc = spawn buildCmdArray(rawCmd)...
+    newProc = cp.spawn buildCmdArray(rawCmd)...
     newProc.on 'error', (err) -> stream.emit 'error', err
     oldProc.stdout.pipe newProc.stdin if oldProc
     oldProc = newProc
 
-  oldProc.stdout.pipe stream
-  stream
+  oldProc.stdout.pipe res
+  res
 
 # Invoke the target command and start piping the data
 exports.invoke = (cmd) ->
+  throw new Error 'No command defined' unless cmd
   spawnPipes cmd.split '|'
