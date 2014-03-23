@@ -1,4 +1,5 @@
 spwny  = require "#{process.cwd()}/lib/spwny"
+stream = require 'stream'
 cp     = require 'child_process'
 sinon  = require 'sinon'
 
@@ -32,3 +33,22 @@ describe 'spwny', ->
 
       spwny.invoke 'ls -la | grep test'
       cp.spawn.calledTwice.should.be.ok
+
+    it 'should spawn from front to back if piping', sinon.test ->
+      @stub(cp, 'spawn').returns
+        on: ->
+        stdout: do -> pipe: ->
+
+      spwny.invoke 'ls -la | grep test'
+      cp.spawn.args[0].should.eql [ 'ls', [ '-la' ]]
+      cp.spawn.args[1].should.eql [ 'grep', [ 'test' ]]
+
+    it 'should return a stream', sinon.test ->
+      @stub(cp, 'spawn').returns
+        on: ->
+        stdout: do -> pipe: ->
+
+      res = spwny.invoke 'ls -la | grep test'
+      res.should.be.an.instanceOf stream
+
+
