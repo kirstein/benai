@@ -2,8 +2,7 @@
   "name": "benai",
   "version": "0.0.0",
   "description": "Benchmark testing toolset",
-  "homepage": "http://github.com/kirstein/zimple",
-  "main": "zimple.js",
+  "homepage": "http://github.com/kirstein/benai",
   "bin": "./bin/benai_bin.coffee",
   "repository": {
     "type": "git",
@@ -13,8 +12,9 @@
     "blanket": {
       "loader": "./node-loaders/coffee-script",
       "data-cover-only": [
-        "src",
-        "plugins"
+        "lib",
+        "core",
+        "modules"
       ],
       "data-cover-never": "node_modules"
     }
