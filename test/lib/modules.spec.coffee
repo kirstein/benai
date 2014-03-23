@@ -53,3 +53,10 @@ describe 'modules', ->
       dummy = init : sinon.spy()
       mod.init [ dummy ], 1, 2, 3
       dummy.init.calledWithExactly(1,2,3).should.be.ok
+
+    it 'should initiate the modules in their order, according to priorty setting', ->
+      dummy1 = init : sinon.spy(), priority: 0
+      dummy2 = init : sinon.spy()
+      dummy3 = init : sinon.spy(), priority: 3
+      mod.init [ dummy1, dummy2, dummy3 ]
+      sinon.assert.callOrder dummy1.init, dummy3.init, dummy2.init

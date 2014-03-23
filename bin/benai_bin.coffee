@@ -21,4 +21,6 @@ cli.parse mod.getArgs core, modules
 # Initialize all modules
 # We ignore the bin location and start our arguments from the second argument
 cli.main ([binLoc, args...], options) ->
-  mod.init [ core, modules ], args, options, modules : modules
+  # Invoke core modules first. They have the power to override modules if needed
+  mod.init [ core ]    , args , options , modules : modules
+  mod.init [ modules ] , args , options , modules : modules

@@ -6,13 +6,13 @@ die = (text, code = 1) ->
   process.exit code
 
 exports.args =
-  'cmd' : [ 'c', 'Command to execute', 'string' ]
+  cmd : [ 'c', 'Command to execute', 'string' ]
 
-pipeModules = (stream, modules) ->
-  die 'piping failed' unless stream?
-  stream.pipe process.stdout
+pipeModules = (stream, modules = []) ->
+  return die 'piping failed' unless stream?
+  module.pipe? stream for module in modules
 
-exports.init = (args, { cmd }, { modules }) ->
-  die 'command must be defined' unless cmd
+exports.init = (args, { cmd } = {}, { modules } = {}) ->
+  return die 'command must be defined' unless cmd
   stream = spwny.invoke cmd
   pipeModules stream, modules

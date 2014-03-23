@@ -21,4 +21,5 @@ exports.getArgs = ->
 exports.init = (modules = [], args...)->
   _(modules).flatten()
             .filter 'init'
+            .sortBy 'priority'
             .invoke 'init', args...
