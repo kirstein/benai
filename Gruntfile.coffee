@@ -25,7 +25,7 @@ module.exports = (grunt) ->
         options : reporter : 'html-cov'
       options :
         compilers : [ 'coffee:coffee-script/register' ]
-        files     : [ '**/*.spec.coffee' ]
+        files     : [ 'test/**/*.spec.coffee' ]
         require   : [ 'should' ]
         growl     : true
         ui        : 'tdd'
