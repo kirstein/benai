@@ -44,7 +44,7 @@ describe 'modules', ->
       dummy2.init.calledOnce.should.be.ok
 
     it 'should trigger init method on all modules', ->
-      dummies = [ init : sinon.spy(), init : sinon.spy(), init: sinon.spy() ]
+      dummies = [ { init : sinon.spy() }, { init : sinon.spy() }, { init: sinon.spy() } ]
       mod.init dummies
       dummies.forEach (dummy) ->
         dummy.init.calledOnce.should.be.ok
@@ -53,7 +53,3 @@ describe 'modules', ->
       dummy = init : sinon.spy()
       mod.init [ dummy ], 1, 2, 3
       dummy.init.calledWithExactly(1,2,3).should.be.ok
-
-
-
-
