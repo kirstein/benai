@@ -26,6 +26,9 @@ describe 'watchkeys', ->
     it 'should return keypress event with modifier for a single keypress', ->
       watchkeys.getEventName(name: 'r', ctrl: true).should.eql 'keypress:ctrl:r'
 
+    it 'should return keypress event with modifier for a single keypress, filtering ONLY true keywords', ->
+      watchkeys.getEventName(name: 'r', ctrl: 'test').should.eql 'keypress:r'
+
     it 'should return keypress event with multiple modifiers for a single keypress', ->
       watchkeys.getEventName(name: 'r', ctrl: true, shift: true).should.eql 'keypress:ctrl:shift:r'
 

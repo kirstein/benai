@@ -22,7 +22,7 @@ exports.getEventName = (keyEvent) ->
   modifiers = [ 'meta', 'ctrl', 'shift' ]
 
   # Build the string
-  event += ":#{key}" for key in modifiers when keyEvent[key]
+  event += ":#{key}" for key in modifiers when keyEvent[key] is true
   "#{event}:#{keyEvent.name}"
 
 exports.startListening = (events) =>
