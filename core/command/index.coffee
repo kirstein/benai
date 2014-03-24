@@ -4,11 +4,10 @@ commons = require '../../lib/commons'
 exports.args =
   cmd : [ 'c', 'Command to execute', 'string' ]
 
-bindEvents = (events) =>
-  return unless events
+exports.bindEvents = (events) =>
   events.subscribe 'keypress:r', => @command.run()
 
-exports.init = (args, { cmd } = {}, { modules, events } = {}) ->
+exports.init = (args, { cmd } = {}, { modules, events } = {}) =>
   return commons.die 'command must be defined' unless cmd
-  bindEvents events
+  @bindEvents events
   @command = new Command cmd, modules
