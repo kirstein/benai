@@ -51,4 +51,13 @@ describe 'spwny', ->
       res = spwny.invoke 'ls -la | grep test'
       res.should.be.an.instanceOf stream
 
+    it 'should use the given stream if its passed', sinon.test ->
+      strm = stream.PassThrough()
+      @stub(cp, 'spawn').returns
+        on: ->
+        stdout: do -> pipe: ->
+
+      res = spwny.invoke 'ls -la | grep test', strm
+      res.should.equal strm
+
 

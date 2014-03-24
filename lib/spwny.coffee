@@ -6,8 +6,7 @@ buildCmdArray = (cmd) ->
   args = args.filter (arg) -> arg
   [ args[0], args[1..] ]
 
-spawnPipes = (cmds) ->
-  res     = stream.PassThrough()
+spawnPipes = (cmds, res = stream.PassThrough()) ->
   oldProc = null
 
   # Pipe streams together, starting from the last
@@ -21,6 +20,6 @@ spawnPipes = (cmds) ->
   res
 
 # Invoke the target command and start piping the data
-exports.invoke = (cmd) ->
+exports.invoke = (cmd, stream) ->
   throw new Error 'No command defined' unless cmd
-  spawnPipes cmd.split '|'
+  spawnPipes cmd.split('|'), stream
