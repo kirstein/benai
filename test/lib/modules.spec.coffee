@@ -10,6 +10,15 @@ describe 'modules', ->
       mod.load 'folder'
       fs.readdirSync.called.should.be.ok
 
+  describe '#sortModulesByPriority', ->
+    it 'should sort given array by priority', ->
+      res = mod.sortModulesByPriority [ { priority: 2}, { priority: 1}]
+      res[0].priority.should.eql 1
+
+    it 'should count no priority as priority 1', ->
+      res = mod.sortModulesByPriority [ { }, { priority: 0 }]
+      res[0].priority.should.eql 0
+
   describe '#getArgs', ->
 
     it 'should filter out only args', ->
@@ -56,7 +65,22 @@ describe 'modules', ->
 
     it 'should initiate the modules in their order, according to priorty setting', ->
       dummy1 = init : sinon.spy(), priority: 0
-      dummy2 = init : sinon.spy()
+      dummy2 = init : sinon.spy(), priority: 6
       dummy3 = init : sinon.spy(), priority: 3
       mod.init [ dummy1, dummy2, dummy3 ]
       sinon.assert.callOrder dummy1.init, dummy3.init, dummy2.init
+
+    it 'should set default priority as 1 if no priority is set', ->
+      dummy1 = init : sinon.spy(), priority: 0
+      dummy2 = init : sinon.spy()
+      dummy3 = init : sinon.spy(), priority: 3
+      mod.init [ dummy1, dummy3, dummy2 ]
+      sinon.assert.callOrder dummy1.init, dummy2.init, dummy3.init
+
+    it 'should initiate the modules with higher priority last', ->
+      dummy1 = init : sinon.spy(), priority: 999
+      dummy2 = init : sinon.spy()
+      mod.init [ dummy1, dummy2 ]
+      sinon.assert.callOrder dummy2.init, dummy1.init
+
+

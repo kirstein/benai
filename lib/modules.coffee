@@ -19,7 +19,12 @@ exports.getArgs = ->
 # Triggers init method on all given modules
 # passes the arguments to the module
 exports.init = (modules = [], args...)->
-  _(modules).flatten()
+  mods = _(@sortModulesByPriority modules).flatten()
             .filter 'init'
-            .sortBy 'priority'
             .invoke 'init', args...
+
+exports.sortModulesByPriority = (modules = []) ->
+  _.sortBy modules, (mod) ->
+    return 1 unless mod?.priority?
+    mod.priority
+
