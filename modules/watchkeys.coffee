@@ -17,6 +17,7 @@ exports.bindEvents = (events) ->
 #
 # will reproduce
 #   'keypress:ctrl:r'
+#
 exports.getEventName = (keyEvent) ->
   event     = "keypress"
   modifiers = [ 'meta', 'ctrl', 'shift' ]

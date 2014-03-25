@@ -5,7 +5,8 @@ _    = require 'lodash'
 # Gets the directory, fetches its content and requires all files from that directory.
 # Returned modules will be required and mapped.
 exports.load = (dir) ->
-  _.map fs.readdirSync(dir), (mod) -> require path.join dir, mod
+  files = fs.readdirSync dir
+  _.map files, (mod) -> require path.join dir, mod
 
 # Fetches all the arguments from given modules
 #
@@ -19,12 +20,20 @@ exports.getArgs = ->
 # Triggers init method on all given modules
 # passes the arguments to the module
 exports.init = (modules = [], args...)->
-  mods = _(@sortModulesByPriority modules).flatten()
-            .filter 'init'
-            .invoke 'init', args...
+  sortedModules = @sortModulesByPriority modules
+  mods = _(sortedModules).flatten()
+                         .filter 'init'
+                         .invoke 'init', args...
 
+# Sorts modules by their correct order
+# if module has no priority consider it to have priority of 1
 exports.sortModulesByPriority = (modules = []) ->
   _.sortBy modules, (mod) ->
     return 1 unless mod?.priority?
     mod.priority
 
+# Checks if all the modules have options obj
+# if they do then extend the current obj with the results of that fn
+exports.mixinOptions = (modules = [], obj = {}) ->
+  _.each modules, (mod) -> _.extend obj, mod.options?()
+  obj

@@ -35,6 +35,25 @@ describe 'modules', ->
       res  = mod.getArgs args...
       res.should.eql test: 123, one: 'two', two: 'one'
 
+  describe '#mixinOptions', ->
+    it 'should return an object', ->
+      mod.mixinOptions().should.be.instanceOf Object
+
+    it 'should not change the input object reference', ->
+      target = { }
+      res = mod.mixinOptions([ options: -> asd : true ], target)
+      res.should.equal target
+
+    it 'should add values from the options', ->
+      target = { }
+      res = mod.mixinOptions([ options: -> asd : true ], target)
+      res.asd.should.eql true
+
+    it 'should overwrite values', ->
+      target = { }
+      res = mod.mixinOptions([ { options: -> asd : true }, { options: -> asd: false }], target)
+      res.asd.should.eql false
+
   describe '#init', ->
 
     it 'should trigger init method on one module', ->

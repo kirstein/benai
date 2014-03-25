@@ -2,6 +2,17 @@ sinon     = require 'sinon'
 watchkeys = require "#{process.cwd()}/modules/watchkeys"
 
 describe 'watchkeys', ->
+  sandbox = null
+
+  # Lets stub out methods that can potentially screw us over
+  beforeEach ->
+    sandbox = sinon.sandbox.create()
+    sandbox.stub process.stdin, 'setRawMode'
+    sandbox.stub process.stdin, 'resume'
+
+  afterEach ->
+    sandbox?.restore()
+
   describe '#args', ->
     it 'should have runOnce arg', -> watchkeys.args.runOnce.should.be.ok
 
