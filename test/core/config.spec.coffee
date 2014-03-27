@@ -5,11 +5,28 @@ config = require "#{process.cwd()}/core/config"
 
 describe 'config', ->
 
-  describe 'load', ->
-    it 'should have set load to false', -> config.load.should.eql false
-
   describe 'args', ->
     it 'should have config', -> config.args.config.should.be.ok
+
+  describe '#findConfig', ->
+    it 'should exist', -> config.findConfig.should.be.ok
+    it 'should try to search for all different file types if there was nothing to be found', sinon.test ->
+      @stub(fs, 'existsSync').returns false
+      config.findConfig 'asd'
+      fs.existsSync.callCount.should.eql 4
+
+    it 'should skip searching if it has found one value', sinon.test ->
+      @stub(fs, 'existsSync').returns true
+      config.findConfig 'asd'
+      fs.existsSync.calledOnce.should.be.ok
+
+    it 'should check for config url in PWD if its not defined', sinon.test ->
+      @stub(fs, 'existsSync').returns false
+      config.findConfig 'my amazing config'
+      fs.existsSync.calledWith('my amazing config').should.be.ok
+      fs.existsSync.calledWith(path.join process.cwd(), 'benai.conf.cs').should.be.ok
+      fs.existsSync.calledWith(path.join process.cwd(), 'benai.conf.coffee').should.be.ok
+      fs.existsSync.calledWith(path.join process.cwd(), 'benai.conf.js').should.be.ok
 
   describe '#init', ->
     it 'should exist', -> config.init.should.be.ok
@@ -19,11 +36,6 @@ describe 'config', ->
       config.init null, config: 'test'
       config.loadConfigs.calledWith('test').should.be.ok
 
-    it 'should check for config url in PWD if its not defined', sinon.test ->
-      @stub(fs, 'existsSync').returns false
-      config.init()
-      fs.existsSync.calledWith(path.join process.cwd(), 'benai.conf.js').should.be.ok
-
     it 'should not trigger loadConfig when the general config file does not exist', sinon.test ->
       @stub(fs, 'existsSync').returns false
       @stub config, 'loadConfigs'
@@ -32,5 +44,3 @@ describe 'config', ->
 
   describe '#loadConfigs', ->
     it 'should exist', -> config.loadConfigs.should.be.ok
-
-    it 'should try to require the config file', ->

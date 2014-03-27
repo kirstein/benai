@@ -1,18 +1,34 @@
 path = require 'path'
 fs   = require 'fs'
 
-CONFIG_NAME = 'benai.conf.js'
+CONFIG_NAME = 'benai.conf'
+CONFIG_SUFF = [ 'cs', 'coffee', 'js' ]
 
-buildConfigUrl = ->
-  path.join process.cwd(), CONFIG_NAME
+buildConfigUrl = (suffix) ->
+  path.join process.cwd(), "#{CONFIG_NAME}.#{suffix}"
 
-exports.load = false
+isRequireable = (file) ->
+  return false unless file
+  fs.existsSync file
 
 exports.args =
-  config : [ false, 'Configuration file to read', 'string' ]
+  config : [ false, 'Configuration file to read (if not present will search for benai.conf.(js|coffee|cs)', 'string' ]
+
+# Searches for the current provided config
+#
+# if that config cannot be found then searches the current directory for the `benai.config`
+# will try all acceptable benai config variants and if one of those works, then will return that config location
+exports.findConfig = (config) ->
+  return config if isRequireable config
+
+  # Build the config name by trying all the suffixes
+  for suffix in CONFIG_SUFF
+    suffixedConf = buildConfigUrl suffix
+    return suffixedConf if isRequireable suffixedConf
 
 exports.init = (args, { config } = {}) =>
-  config or= buildConfigUrl()
-  @loadConfigs config if fs.existsSync config
+  return unless conf = @findConfig config
+  @loadConfigs conf
 
-exports.loadConfigs = (configUrl) -> require(configUrl)?.config()
+exports.loadConfigs = (configUrl) ->
+  require(configUrl)?.config()
