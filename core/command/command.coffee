@@ -7,6 +7,8 @@ module.exports = class Command
     @modules = mod.sortModulesByPriority modules
     @run()
 
+  stop: ->
+
   run: ->
     @stream = spwny.invoke @rawCommand
     @buildPipes()
