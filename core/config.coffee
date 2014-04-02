@@ -1,5 +1,6 @@
 path = require 'path'
 fs   = require 'fs'
+_    = require 'lodash'
 
 CONFIG_NAME = 'benai.conf'
 CONFIG_SUFF = [ 'cs', 'coffee', 'js' ]
@@ -26,9 +27,8 @@ exports.findConfig = (config) ->
     suffixedConf = buildConfigUrl suffix
     return suffixedConf if isRequireable suffixedConf
 
-exports.init = (args, { config } = {}) =>
+exports.init = (args, { config } = {}, opts = {}) =>
   return unless conf = @findConfig config
-  @loadConfigs conf
+  opts.config = _.extend opts.config or {}, @loadConfigs conf
 
-exports.loadConfigs = (configUrl) ->
-  require(configUrl)?.config()
+exports.loadConfigs = (configUrl) -> require(configUrl)?.config()

@@ -42,5 +42,19 @@ describe 'config', ->
       config.init()
       config.loadConfigs.called.should.not.be.ok
 
+    it 'should write config to opts if it does not exist', sinon.test ->
+      @stub(fs, 'existsSync').returns true
+      @stub config, 'loadConfigs'
+      opts = {}
+      config.init null, config: 'test', opts
+      opts.config.should.be.ok
+
+    it 'should extend the configs', sinon.test ->
+      @stub(fs, 'existsSync').returns true
+      @stub(config, 'loadConfigs').returns test: 123
+      opts = {}
+      config.init null, config: 'test', opts
+      opts.config.test.should.be.eql 123
+
   describe '#loadConfigs', ->
     it 'should exist', -> config.loadConfigs.should.be.ok
