@@ -9,7 +9,7 @@ describe 'config', ->
     it 'should have config', -> config.args.config.should.be.ok
 
   describe 'priority', ->
-    it 'should have priority of 0', -> config.priority.should.eql 0
+    it 'should have priority of -1', -> config.priority.should.eql -1
 
   describe '#findConfig', ->
     it 'should exist', -> config.findConfig.should.be.ok

@@ -21,8 +21,8 @@ exports.getArgs = ->
 # passes the arguments to the module
 exports.init = (modules = [], args...)->
   sortedModules = @sortModulesByPriority _.flatten modules
-  mods = _(sortedModules).filter 'init'
-                         .invoke 'init', args...
+  _(sortedModules).filter 'init'
+                  .invoke 'init', args...
 
 # Sorts modules by their correct order
 # if module has no priority consider it to have priority of 1
