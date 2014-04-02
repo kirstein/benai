@@ -12,6 +12,8 @@ isRequireable = (file) ->
   return false unless file
   fs.existsSync file
 
+exports.priority = 0
+
 exports.args =
   config : [ false, 'Configuration file to read (if not present will search for benai.conf.(js|coffee|cs)', 'string' ]
 

@@ -22,18 +22,6 @@ describe 'command', ->
         command.bindEvents events
         command.command.run.called.should.be.ok
 
-    describe 'keypress:ctrl:r', ->
-      it 'should subscribe to keypress:ctrl:c event', ->
-        events = subscribe : sinon.spy()
-        command.bindEvents events
-        events.subscribe.calledWith('keypress:ctrl:c').should.be.ok
-
-      it 'should trigger command run when keypress:ctrl:c is triggered', ->
-        events = subscribe : (evt, cb) -> cb() if evt is 'keypress:ctrl:c'
-        command.command = stop : sinon.spy()
-        command.bindEvents events
-        command.command.stop.called.should.be.ok
-
   describe '#init', ->
     it 'should exist', -> command.init.should.be.ok
 
@@ -46,6 +34,11 @@ describe 'command', ->
       @stub(spwny, 'invoke').returns stream.PassThrough()
       command.init null, { cmd: 'test' }, events: subscribe: ->
       spwny.invoke.calledWith('test').should.be.ok
+
+    it 'should call spwny invoke with the command as option arg', sinon.test ->
+      @stub(spwny, 'invoke').returns stream.PassThrough()
+      command.init null, null, config: { command: 123 }, events: subscribe: ->
+      spwny.invoke.calledWith(123).should.be.ok
 
     it 'should die if spwny returns no stream', sinon.test ->
       @stub spwny, 'invoke'
@@ -69,9 +62,6 @@ describe 'command', ->
   describe 'Command', ->
 
     it 'should exist', -> Command.should.be.ok
-
-    describe '#stop', ->
-      it 'should exist', -> Command::stop.should.be.ok
 
     describe '#run', ->
       it 'should exist', -> Command::run.should.be.ok

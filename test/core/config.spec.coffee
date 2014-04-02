@@ -8,6 +8,9 @@ describe 'config', ->
   describe 'args', ->
     it 'should have config', -> config.args.config.should.be.ok
 
+  describe 'priority', ->
+    it 'should have priority of 0', -> config.priority.should.eql 0
+
   describe '#findConfig', ->
     it 'should exist', -> config.findConfig.should.be.ok
     it 'should try to search for all different file types if there was nothing to be found', sinon.test ->

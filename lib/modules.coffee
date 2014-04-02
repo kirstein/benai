@@ -20,9 +20,8 @@ exports.getArgs = ->
 # Triggers init method on all given modules
 # passes the arguments to the module
 exports.init = (modules = [], args...)->
-  sortedModules = @sortModulesByPriority modules
-  mods = _(sortedModules).flatten()
-                         .filter 'init'
+  sortedModules = @sortModulesByPriority _.flatten modules
+  mods = _(sortedModules).filter 'init'
                          .invoke 'init', args...
 
 # Sorts modules by their correct order
