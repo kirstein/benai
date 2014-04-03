@@ -19,10 +19,11 @@ exports.getArgs = ->
 
 # Triggers init method on all given modules
 # passes the arguments to the module
-exports.init = (modules = [], args...)->
+exports.triggerFn = (fn, modules = [], args...)->
+  throw new Error 'No function defined' unless fn
   sortedModules = @sortModulesByPriority _.flatten modules
-  _(sortedModules).filter 'init'
-                  .invoke 'init', args...
+  _(sortedModules).filter fn
+                  .invoke fn, args...
 
 # Sorts modules by their correct order
 # if module has no priority consider it to have priority of 1
