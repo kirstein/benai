@@ -24,7 +24,18 @@ describe 'watchkeys', ->
 
     it 'should trigger process pause when triggered', sinon.test ->
       @stub process.stdin, 'pause'
-      events = subscribe : (evt, cb) -> cb()
+      events = subscribe : (evt, cb) -> cb() if evt is 'keypress:ctrl:c'
+      watchkeys.bindEvents events
+      process.stdin.pause.called.should.be.ok
+
+    it 'should subscribe to keypress:escape event', ->
+      events = subscribe : sinon.spy()
+      watchkeys.bindEvents events
+      events.subscribe.calledWith 'keypress:escape'
+
+    it 'should trigger process pause when triggered', sinon.test ->
+      @stub process.stdin, 'pause'
+      events = subscribe : (evt, cb) -> cb() if evt is 'keypress:escape'
       watchkeys.bindEvents events
       process.stdin.pause.called.should.be.ok
 
