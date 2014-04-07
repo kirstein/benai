@@ -41,3 +41,6 @@ cli.main ([binLoc, args...], options) ->
   mod.mixinOptions core, opts
   mod.triggerFn 'init', [ modules ], initArgs...
 
+  # Trigger the run method on modules
+  mod.triggerFn 'run', [ core, modules ], initArgs...
+

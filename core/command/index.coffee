@@ -7,7 +7,7 @@ exports.args =
 exports.bindEvents = (events) =>
   events.subscribe 'keypress:r', => @command.run()
 
-exports.init = (args, { cmd } = {}, { modules, events, config } = {}) =>
+exports.run = (args, { cmd } = {}, { modules, events, config } = {}) =>
   triggerCmd = cmd or config?.command
   return commons.die 'command must be defined' unless triggerCmd
   @bindEvents events
