@@ -6,9 +6,10 @@ exports.args =
   regexp : [ 'r', 'Regexp to parse', 'string' ]
 
 exports.pipe = (stream) =>
-  #return unless @regexp
   self = @
-  stream.pipe through (data) -> @queue data.toString().toUpperCase()
+  return stream unless @parser
+  stream.pipe through (data) -> @queue self.parser data
 
-exports.init = (args, { @regexp } = {}) ->
+exports.init = (args, opts, { config } = {}) ->
+  @parser = config.parser
 
