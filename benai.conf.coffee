@@ -1,3 +1,5 @@
 exports.config = ->
   command: 'ls -la'
-  parser: (data) -> data.toString().toUpperCase()
+  parser: (data) ->
+    data.toString().toUpperCase()
+  exclude: []
