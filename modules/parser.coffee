@@ -1,7 +1,7 @@
 commons = require '../lib/commons'
 through = require 'through'
 
-exports.name = 'parserFn'
+exports.name = 'parser'
 
 exports.pipe = (stream) =>
   self = @
