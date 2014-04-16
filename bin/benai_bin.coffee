@@ -1,6 +1,9 @@
 #!/usr/bin/env coffee
 LIB_DIR  = "#{__dirname}/../lib"
 
+timeEv = require 'time-eventloop'
+timeEv.start interval : 10
+
 path   = require 'path'
 pck    = require '../package.json'
 mod    = require path.resolve "#{LIB_DIR}/modules"

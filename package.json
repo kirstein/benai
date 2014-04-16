@@ -39,6 +39,7 @@
     "pubsub-js": "~1.4.2",
     "lodash": "^2.4.1",
     "through": "~2.3.4",
-    "duplex-passthrough": "~1.0.1"
+    "duplex-passthrough": "~1.0.1",
+    "time-eventloop": "0.0.2"
   }
 }

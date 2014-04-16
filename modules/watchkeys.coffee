@@ -7,8 +7,8 @@ exports.args =
 
 exports.bindEvents = (events) ->
   # When ctrl+c is pressed then quit the process
-  events.subscribe 'keypress:ctrl:c', -> process.stdin.pause()
-  events.subscribe 'keypress:escape', -> process.stdin.pause()
+  events.subscribe 'keypress:ctrl:c', -> process.exit 0
+  events.subscribe 'keypress:escape', -> process.exit 0
 
 # Builds the event name of the keyEvent object
 # Event name has its modifier keys and the event name as first item
