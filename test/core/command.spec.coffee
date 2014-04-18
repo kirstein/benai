@@ -58,12 +58,3 @@ describe 'command', ->
       @stub command, 'bindEvents'
       command.run null, { cmd: 'test' }, modules : [], events: subscribe: ->
       command.bindEvents.called.should.be.ok
-
-  describe 'Command', ->
-
-    it 'should exist', -> Command.should.be.ok
-
-    describe '#run', ->
-      it 'should exist', -> Command::run.should.be.ok
-
-

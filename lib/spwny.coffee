@@ -12,9 +12,9 @@ spawnPipes = (cmds, Stream = DuplexPassthrough) ->
   # Pipe streams together, starting from the last
   for rawCmd in cmds
     newProc = child_process.spawn buildCmdArray(rawCmd)...
+    # keep on piping to next proc if we have one
     oldProc.stdout?.pipe newProc.stdin if oldProc
     oldProc = newProc
-
   new Stream oldProc.stdout
 
 # Invoke the target command and start piping the data

@@ -12,6 +12,11 @@ module.exports = class Command
     @buildPipes()
     @stream
 
+  # for each module in modules list
+  # pipe its output to next one unless the old one returns null or undefined
   buildPipes: ->
     return commons.die 'piping failed' unless @stream?
-    @stream = module.pipe @stream for module in @modules when module.pipe?
+    for module in @modules when module.pipe?
+      tmp = module.pipe @stream
+      # assure that all the piping functions return something
+      @stream = tmp if tmp?
