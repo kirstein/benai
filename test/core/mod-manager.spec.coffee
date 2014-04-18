@@ -39,6 +39,12 @@ describe 'mod-manager', ->
       mod.init null, null, { modules, config: { exclude } }
       modules.length.should.eql 2
 
+    it 'should exclude one module from config string', ->
+      modules = [ { name: 'test2' }, { name: 'test1' } ]
+      exclude = 'test2'
+      mod.init null, null, { modules, config: { exclude } }
+      modules.length.should.eql 1
+
     it 'should exclude one module from config list (e01)', ->
       modules = [ { name: 'test2' }, { name: 'test1' } ]
       exclude = [ 'test2' ]

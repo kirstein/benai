@@ -29,6 +29,7 @@ module.exports = (grunt) ->
         require   : [ 'should' ]
         growl     : true
         ui        : 'tdd'
+        bail      : true
 
     # Watch for file changes.
     watch:
