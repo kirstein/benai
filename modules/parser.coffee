@@ -6,8 +6,9 @@ exports.name = 'parser'
 exports.pipe = (stream) =>
   self = @
   return stream unless @parserFn
-  stream.pipe through (data) -> @queue self.parserFn data
+  stream.pipe through (data) ->
+    return unless parsed = self.parserFn data
+    @queue parsed
 
 exports.init = (args, opts, { config } = {}) ->
   @parserFn = config.parser
-
